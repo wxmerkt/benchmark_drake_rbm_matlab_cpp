@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
             << std::endl;
 
   VectorXd x0(rigid_body_sys.getNumStates());
+  x0.setZero();
 
   VectorXd u(rigid_body_sys.getNumInputs());
   u.setZero();
@@ -43,8 +44,7 @@ int main(int argc, char* argv[]) {
   default_random_engine engine;
   tic();
   for (int i = 0; i < 1000; i++) {
-    x0.head(rigid_body_sys.getNumInputs()) =
-        tree->getRandomConfiguration(engine);
+    x0.head(rigid_body_sys.getNumInputs()).setRandom();
     auto xdot = rigid_body_sys.dynamics(0.0, x0, u);
   }
   toc();
